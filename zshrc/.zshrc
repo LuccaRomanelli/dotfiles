@@ -19,11 +19,16 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
+
+export PATH="$HOME/.tmuxifier/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
+export DISABLE_AUTO_TITLE=true
 
-plugins=(git nvm command-not-found zsh-autosuggestions sudo)
+eval "$(tmuxifier init -)"
+
+plugins=(command-not-found zsh-autosuggestions sudo)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -53,6 +58,9 @@ fi
 open() {
   xdg-open "$@" >/dev/null 2>&1 &
 }
+
+# Yopki
+alias yopki='tmuxifier load-session yopki'
 
 # Directories
 alias ..='cd ..'
