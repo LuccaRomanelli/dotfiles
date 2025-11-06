@@ -10,6 +10,7 @@
   ],
   "modules-center": [
     "clock",
+    "custom/weather",
     "custom/update",
     "custom/screenrecording-indicator"
   ],
@@ -21,7 +22,9 @@
     "cpu",
     "battery",
     "disk",
-    "memory"
+    "memory",
+    "temperature",
+    "custom/nvidia_temp"
   ],
   "hyprland/workspaces": {
     "on-click": "activate",
@@ -53,6 +56,13 @@
     "on-click-right": "xdg-terminal-exec",
     "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
   },
+  "custom/weather": {
+    "format": " {}",
+    "exec": "temp=$(curl -s 'https://wttr.in/Belo+Horizonte?format=%t' 2>/dev/null | sed 's/+/󰼲 /g'); [ -n \"$temp\" ] && echo \"$temp\" || echo '󰼲 x'",
+    "interval": 1800,
+    "tooltip": true,
+    "return-type": ""
+  },
   "custom/update": {
     "format": "",
     "exec": "omarchy-update-available",
@@ -61,15 +71,31 @@
     "signal": 7,
     "interval": 3600
   },
+  "temperature": {
+    "hwmon-path": [
+      "/sys/class/hwmon/hwmon1/temp1_input"
+    ],
+    "format": "CPU {temperatureC}°C",
+    "tooltip": true,
+    "critical-threshold": 90,
+    "interval": 5
+  },
   "cpu": {
     "interval": 5,
-    "format": "󰍛 %{}",
+    "format": "󰍛{}%",
     "on-click": "xdg-terminal-exec btop"
   },
   "clock": {
     "format": "{:L%F %A W%V %T}",
     "tooltip": false,
     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
+  },
+  "custom/nvidia_temp": {
+    "class": "gpu",
+    "format": "GPU {}°C",
+    "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader | head -n1",
+    "interval": 5,
+    "tooltip": true
   },
   "network": {
     "format-icons": [
@@ -139,7 +165,7 @@
     "on-click": "blueberry"
   },
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "{icon}{volume}%",
     "on-click": "xdg-terminal-exec --app-id=com.omarchy.Wiremix -e wiremix",
     "on-click-right": "pamixer -t",
     "tooltip-format": "Playing at {volume}%",
@@ -180,10 +206,10 @@
   },
   "disk": {
     "interval": 30,
-    "format": " {percentage_used}%"
+    "format": "{percentage_used}%"
   },
   "memory": {
     "interval": 30,
-    "format": " {}% 󰓡 {swapPercentage}%"
+    "format": "{}% 󰓡{swapPercentage}%"
   }
 }

@@ -37,6 +37,9 @@
 #custom-screenrecording-indicator,
 #disk,
 #memory,
+#custom-nvidia_temp,
+#temperature,
+#custom-weather,
 #custom-update {
   min-width: 10px;
   margin: 0 7.5px;
