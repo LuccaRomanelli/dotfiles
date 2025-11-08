@@ -1,14 +1,31 @@
 @import "../omarchy/current/theme/waybar.css";
 
 * {
-  background-color: @background;
   color: @foreground;
-
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: 'CaskaydiaMono Nerd Font Mono';
+  font-family: "CaskaydiaMono Nerd Font";
+  font-weight: bold;
   font-size: 20px;
+}
+
+window#waybar {
+  background: transparent;
+  margin-top: 2px;
+  padding: 0;
+}
+
+window#waybar.empty #window {
+  background: transparent;
+  padding: 0;
+  margin-left: 0;
+}
+
+mpris#waybar.empty #mpris {
+  background: transparent;
+  padding: 0;
+  margin-right: 0;
 }
 
 .modules-left {
@@ -30,59 +47,44 @@
   opacity: 0.5;
 }
 
+/* === Pill Modules === */
+#memory,
+#custom-update,
+#custom-archlogo,
+#backlight,
+#window,
+#mpris,
+#tray,
 #cpu,
 #battery,
+#network,
+#bluetooth,
 #pulseaudio,
+#clock,
 #custom-omarchy,
+#workspaces,
 #custom-screenrecording-indicator,
 #disk,
-#memory,
 #custom-nvidia_temp,
 #temperature,
 #custom-weather,
-#custom-update {
-  min-width: 10px;
-  margin: 0 7.5px;
-  min-height: 14px;
-}
-
-#tray {
-  margin-right: 16px;
-}
-
-#bluetooth {
-  margin-right: 17px;
-}
-
-#network {
-  margin-right: 13px;
-}
-
-#custom-expand-icon {
-  margin-right: 20px;
+#tray-expander {
+  background-color: rgba(10, 7, 22, 0.55); 
+  color: @foreground;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 10px;  
+  padding: 10px; 
+  margin: 5px; 
+  min-height: 0;
 }
 
 tooltip {
+  border-radius: 10px;
   padding: 2px;
 }
 
-#custom-update {
-  font-size: 14px;
-}
 
-#clock {
-  margin-left: 8.75px;
-}
-
-.hidden {
-  opacity: 0;
-}
-
-#custom-screenrecording-indicator {
-  min-width: 12px;
-  margin-left: 8.75px;
-}
-
-#custom-screenrecording-indicator.active {
-  color: #a55555;
+#custom-archlogo,
+#network {
+  padding-right: 17px
 }
