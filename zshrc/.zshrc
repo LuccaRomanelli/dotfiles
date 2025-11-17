@@ -144,3 +144,31 @@ img2png() {
     -define png:exclude-chunk=all \
     "${1%.*}.png"
 }
+
+# Laravel sail
+md='mkdir -p'
+ports='sudo lsof -i -P -n | grep LISTEN'
+rd=rmdir
+sa='s artisan'
+saql='sa queue:listen'
+saqw='sa queue:work'
+sasr='sa schedule:run'
+sasw='sa schedule:work'
+sbuild='s npm run build'
+sdev='s npm run dev'
+sdown='s down'
+sn='s npm'
+sp='s php'
+spint='sp ./vendor/bin/pint --dirty'
+st='sp ./vendor/bin/pest'
+sta='sp ./vendor/bin/pest --testsuite Arch'
+stan='sp ./vendor/bin/phpstan'
+stc='stp --coverage-clover .qodana/code-coverage/coverage.xml'
+std='sp ./vendor/bin/pest --dirty'
+stf='sp ./vendor/bin/pest --testsuite Feature'
+stfl='sp ./vendor/bin/pest --filter'
+stk='sa tinker'
+stp='sp ./vendor/bin/pest --parallel'
+stu='sp  ./vendor/bin/pest --testsuite Unit'
+sud='s up -d'
+sup='s up'
