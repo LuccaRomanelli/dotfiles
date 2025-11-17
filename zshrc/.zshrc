@@ -19,7 +19,6 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
-
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
@@ -145,30 +144,96 @@ img2png() {
     "${1%.*}.png"
 }
 
-# Laravel sail
-md='mkdir -p'
-ports='sudo lsof -i -P -n | grep LISTEN'
-rd=rmdir
-sa='s artisan'
-saql='sa queue:listen'
-saqw='sa queue:work'
-sasr='sa schedule:run'
-sasw='sa schedule:work'
-sbuild='s npm run build'
-sdev='s npm run dev'
-sdown='s down'
-sn='s npm'
-sp='s php'
-spint='sp ./vendor/bin/pint --dirty'
-st='sp ./vendor/bin/pest'
-sta='sp ./vendor/bin/pest --testsuite Arch'
-stan='sp ./vendor/bin/phpstan'
-stc='stp --coverage-clover .qodana/code-coverage/coverage.xml'
-std='sp ./vendor/bin/pest --dirty'
-stf='sp ./vendor/bin/pest --testsuite Feature'
-stfl='sp ./vendor/bin/pest --filter'
-stk='sa tinker'
-stp='sp ./vendor/bin/pest --parallel'
-stu='sp  ./vendor/bin/pest --testsuite Unit'
-sud='s up -d'
-sup='s up'
+# Old key-bindings
+alias ports="sudo lsof -i -P -n | grep LISTEN"
+alias dcou="docker compose up -d"
+alias down="docker compose down"
+alias last-commit="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
+
+export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
+function _find_sail() {
+  local dir=.
+  until [ $dir -ef / ]; do
+    if [ -f "$dir/sail" ]; then
+      echo "$dir/sail"
+      return 0
+    elif [ -f "$dir/vendor/bin/sail" ]; then
+      echo "$dir/vendor/bin/sail"
+      return 0
+    fi
+    dir+=/..
+  done
+  return 1
+}
+function s() {
+  local sail_path
+  sail_path=$(_find_sail)
+
+  if [[ $1 == "cinit" ]]; then
+    docker run --rm \
+      -u "$(id -u):$(id -g)" \
+      -v $(pwd):/var/www/html \
+      -w /var/www/html \
+      laravelsail/php"${2:=83}"-composer:latest \
+      composer install --ignore-platform-reqs
+  elif [[ $1 == "ninit" ]]; then
+    docker run --rm \
+      -u "$(id -u):$(id -g)" \
+      -v $(pwd):/var/www/html \
+      -w /var/www/html \
+      node:${2:=20} \
+      npm install
+  else
+    if [ "$sail_path" = "" ]; then
+      if [ $ZSH_SAIL_FALLBACK_TO_LOCAL = "true" ]; then
+        $*
+        else
+        >&2 printf "laravel-sail: sail executable not found. Are you in a Laravel directory?\nif yes try install Dependencies using 's cinit' command\n"
+        return 1
+      fi
+    fi
+    $sail_path $*
+  fi
+}
+function sa() {
+  s artisan $*
+}
+function sc() {
+  s composer $*
+}
+# alias s='bash ./vendor/bin/sail'
+alias sup='s up'
+alias sud='s up -d'
+alias sdown='s down'
+alias sa='s artisan'
+alias saqw='sa queue:work'
+alias saql='sa queue:listen'
+alias sasw='sa schedule:work'
+alias sasr='sa schedule:run'
+alias sp='s php'
+alias sn='s npm'
+alias sdev='s npm run dev'
+alias sbuild='s npm run build'
+alias st='sp ./vendor/bin/pest'
+alias stp='sp ./vendor/bin/pest --parallel'
+alias std='sp ./vendor/bin/pest --dirty'
+alias sta='sp ./vendor/bin/pest --testsuite Arch'
+alias stf='sp ./vendor/bin/pest --testsuite Feature'
+alias stu='sp  ./vendor/bin/pest --testsuite Unit'
+alias stfl='sp ./vendor/bin/pest --filter'
+alias stk='sa tinker'
+alias stc='stp --coverage-clover .qodana/code-coverage/coverage.xml'
+alias stan='sp ./vendor/bin/phpstan'
+alias spint='sp ./vendor/bin/pint --dirty'
+compdef _artisan sa
+compdef _composer sc
+function _artisan() {
+  if [ -f "./vendor/bin/sail" ]; then
+    compadd $(sa --raw --no-ansi list | sed "s/[[:space:]].*//g")
+  fi
+}
+function _composer() {
+  if [ -f "./vendor/bin/sail" ]; then
+    compadd $(sc --raw --no-ansi list | sed "s/[[:space:]].*//g")
+  fi
+}
