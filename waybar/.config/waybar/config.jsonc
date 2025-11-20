@@ -21,11 +21,12 @@
     //"bluetooth",
     "network",
     "pulseaudio",
-    "cpu",
     "battery",
     "disk",
     "memory",
+    "cpu",
     "temperature",
+    "custom/nvidia_usage",
     "custom/nvidia_temp"
   ],
   "hyprland/workspaces": {
@@ -87,14 +88,22 @@
     "interval": 5
   },
   "cpu": {
-    "interval": 5,
-    "format": "󰍛 {}%",
+    "interval": 1,
+    "format": "󰍛 {usage}%",
     "on-click": "xdg-terminal-exec btop"
   },
   "clock": {
-    "format": "{:L%F %A W%V %T}",
+    "format": "{:%F %A W%V %T}",
+    "interval": 1,
     "tooltip": false,
     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
+  },
+  "custom/nvidia_usage": {
+    "class": "gpu",
+    "format": "󰍛GPU {}%",
+    "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | head -n1",
+    "interval": 5,
+    "tooltip": true
   },
   "custom/nvidia_temp": {
     "class": "gpu",
