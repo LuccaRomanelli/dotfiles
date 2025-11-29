@@ -129,8 +129,8 @@ alias stk='sa tinker'
 alias stc='stp --coverage-clover .qodana/code-coverage/coverage.xml'
 alias stan='sp ./vendor/bin/phpstan'
 alias spint='sp ./vendor/bin/pint --dirty'
-compdef _artisan sa
-compdef _composer sc
+#compdef _artisan sa
+#compdef _composer sc
 function _artisan() {
   if [ -f "./vendor/bin/sail" ]; then
     compadd $(sa --raw --no-ansi list | sed "s/[[:space:]].*//g")
