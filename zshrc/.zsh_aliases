@@ -1,0 +1,181 @@
+#### Aliases
+### Terminal movment
+## List
+if command -v eza &> /dev/null; then
+  alias ls='eza -lh --group-directories-first --icons=auto'
+  alias lsa='ls -a'
+  alias lt='eza --tree --level=2 --long --icons --git'
+  alias lta='lt -a'
+fi
+
+## Fuzy find
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+## Move folders
+if command -v zoxide &> /dev/null; then
+  alias cd="zd"
+  zd() {
+    if [ $# -eq 0 ]; then
+      builtin cd ~ && return
+    elif [ -d "$1" ]; then
+      builtin cd "$1"
+    else
+      z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
+    fi
+  }
+fi
+
+open() {
+  xdg-open "$@" >/dev/null 2>&1 &
+}
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+### Tools
+## Docker
+alias d='docker'
+alias ports="sudo lsof -i -P -n | grep LISTEN"
+alias dcou="docker compose up -d"
+alias down="docker compose down"
+
+## Nvim
+n() { if [ "$#" -eq 0 ]; then nvim .; else nvim "$@"; fi; }
+
+## Git
+alias g='git'
+alias ga='git add .'
+alias gcam='git commit -a -m'
+alias gl='git pull'
+alias gp='git push'
+alias gco='git checkout'
+alias gc="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
+
+
+## Laravel sail
+export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
+function _find_sail() {
+  local dir=.
+  until [ $dir -ef / ]; do
+    if [ -f "$dir/sail" ]; then
+      echo "$dir/sail"
+      return 0
+    elif [ -f "$dir/vendor/bin/sail" ]; then
+      echo "$dir/vendor/bin/sail"
+      return 0
+    fi
+    dir+=/..
+  done
+  return 1
+}
+function s() {
+  local sail_path
+  sail_path=$(_find_sail)
+
+  if [[ $1 == "cinit" ]]; then
+    docker run --rm \
+      -u "$(id -u):$(id -g)" \
+      -v $(pwd):/var/www/html \
+      -w /var/www/html \
+      laravelsail/php"${2:=83}"-composer:latest \
+      composer install --ignore-platform-reqs
+  elif [[ $1 == "ninit" ]]; then
+    docker run --rm \
+      -u "$(id -u):$(id -g)" \
+      -v $(pwd):/var/www/html \
+      -w /var/www/html \
+      node:${2:=20} \
+      npm install
+  else
+    if [ "$sail_path" = "" ]; then
+      if [ $ZSH_SAIL_FALLBACK_TO_LOCAL = "true" ]; then
+        $*
+        else
+        >&2 printf "laravel-sail: sail executable not found. Are you in a Laravel directory?\nif yes try install Dependencies using 's cinit' command\n"
+        return 1
+      fi
+    fi
+    $sail_path $*
+  fi
+}
+function sa() {
+  s artisan $*
+}
+function sc() {
+  s composer $*
+}
+# alias s='bash ./vendor/bin/sail'
+alias sup='s up'
+alias sud='s up -d'
+alias sdown='s down'
+alias sa='s artisan'
+alias saqw='sa queue:work'
+alias saql='sa queue:listen'
+alias sasw='sa schedule:work'
+alias sasr='sa schedule:run'
+alias sp='s php'
+alias sn='s npm'
+alias sdev='s npm run dev'
+alias sbuild='s npm run build'
+alias st='sp ./vendor/bin/pest'
+alias stp='sp ./vendor/bin/pest --parallel'
+alias std='sp ./vendor/bin/pest --dirty'
+alias sta='sp ./vendor/bin/pest --testsuite Arch'
+alias stf='sp ./vendor/bin/pest --testsuite Feature'
+alias stu='sp  ./vendor/bin/pest --testsuite Unit'
+alias stfl='sp ./vendor/bin/pest --filter'
+alias stk='sa tinker'
+alias stc='stp --coverage-clover .qodana/code-coverage/coverage.xml'
+alias stan='sp ./vendor/bin/phpstan'
+alias spint='sp ./vendor/bin/pint --dirty'
+compdef _artisan sa
+compdef _composer sc
+function _artisan() {
+  if [ -f "./vendor/bin/sail" ]; then
+    compadd $(sa --raw --no-ansi list | sed "s/[[:space:]].*//g")
+  fi
+}
+function _composer() {
+  if [ -f "./vendor/bin/sail" ]; then
+    compadd $(sc --raw --no-ansi list | sed "s/[[:space:]].*//g")
+  fi
+}
+
+## Yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
+## Tmux
+new_tmux () {
+  session_dir=$(zoxide query --list | fzf)
+  session_name=$(basename "$session_dir")
+
+  if tmux has-session -t $session_name 2>/dev/null; then
+    if [ -n "$TMUX" ]; then
+      tmux switch-client -t "$session_name"
+    else
+      tmux attach -t "$session_name"
+    fi
+    notification="tmux attached to $session_name"
+  else
+    if [ -n "$TMUX" ]; then
+      tmux new-session -d -c "$session_dir" -s "$session_name" && tmux switch-client -t "$session_name"
+      notification="new tmux session INSIDE TMUX: $session_name"
+    else
+      tmux new-session -c "$session_dir" -s "$session_name"
+      notification="new tmux session: $session_name"
+    fi
+  fi
+
+  if [-s "$session_name" ]; then
+    notify-send "$notification"
+  fi
+}
+
+alias tm=new_tmux
