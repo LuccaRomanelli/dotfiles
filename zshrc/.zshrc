@@ -29,4 +29,4 @@ export DISABLE_AUTO_TITLE=true
 
 # Source functions and aliases
 source ~/.zsh_aliases
-source ~/dev/dotfiles/scripts/__gh_cli.sh
+source ~/scripts/__grep_and_open.sh
