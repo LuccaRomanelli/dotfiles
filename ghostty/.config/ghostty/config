@@ -1,14 +1,10 @@
-font-size = 16
-background-opacity = 0.95
-gtk-titlebar = false
-
 # Dynamic theme colors
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
 # Font
 font-family = "JetBrainsMono Nerd Font"
 font-style = Regular
-font-size = 16
+font-size = 14
 
 # Window
 window-theme = ghostty

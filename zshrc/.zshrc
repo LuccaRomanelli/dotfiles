@@ -38,4 +38,3 @@ source <(fzf --zsh)
 
 # Source functions and aliases
 source ~/.zsh_aliases
-source ~/scripts/__grep_and_open.sh
