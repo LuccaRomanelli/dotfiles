@@ -24,6 +24,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export DISABLE_AUTO_TITLE=true
+export PATH="$HOME/.local/bin:$PATH"
 
 # eval "$(tmuxifier init -)"
 
