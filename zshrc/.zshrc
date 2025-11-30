@@ -20,11 +20,19 @@ if command -v fzf &> /dev/null; then
 fi
 
 export PATH="$HOME/.tmuxifier/bin:$PATH"
-export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export DISABLE_AUTO_TITLE=true
 export PATH="$HOME/.local/bin:$PATH"
+
+HISTFILE=~/.history
+HISTSIZE=10000
+SAVEHIST=50000
+setopt inc_append_history
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
 
 # eval "$(tmuxifier init -)"
 
