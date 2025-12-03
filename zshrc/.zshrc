@@ -20,6 +20,11 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
+# --- Oh My Zsh ---
+export ZSH="$HOME/.oh-my-zsh"
+plugins=(command-not-found zsh-autosuggestion zsh-sintax-highlighting sudo)
+source $ZSH/oh-my-zsh.sh
+
 # --- Completion padrão + cores ---
 autoload -Uz compinit
 compinit
