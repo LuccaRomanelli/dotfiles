@@ -1,0 +1,6 @@
+[user]
+    name = Lucca Romanelli
+    email = ldpromanelli@gmail.com
+
+[includeIf "gitdir:~/onhappy/"]
+    path = ~/.gitconfig-gitlab
