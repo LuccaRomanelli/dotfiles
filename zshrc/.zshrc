@@ -22,7 +22,7 @@ fi
 
 # --- Oh My Zsh ---
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(command-not-found zsh-autosuggestion zsh-sintax-highlighting sudo)
+plugins=(command-not-found zsh-autosuggestions zsh-syntax-highlighting sudo)
 source $ZSH/oh-my-zsh.sh
 
 # --- Completion padrão + cores ---
