@@ -53,6 +53,9 @@ alias gs='git status'
 alias gco='git checkout'
 alias gc="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
+## Claude
+alias c='claude'
+alias cr='claude --resume'
 
 ## Laravel sail
 export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
