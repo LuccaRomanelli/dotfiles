@@ -132,3 +132,7 @@ SAVEHIST=50000
 setopt inc_append_history
 
 source ~/.zsh_aliases
+export PATH="/home/lcc/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/home/lcc/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+alias gb="git branch"
+alias lg="lazygit"
