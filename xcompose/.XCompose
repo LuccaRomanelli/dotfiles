@@ -1,0 +1,8 @@
+include "%H/.local/share/omarchy/default/xcompose"
+
+# Identification
+<Multi_key> <space> <n> : "Lucca Romanelli"
+<Multi_key> <space> <f> : "Lucca Defelippo de Paula Romanelli"
+<Multi_key> <space> <e> : "ldpromanelii@gmail.com"
+<Multi_key> <space> <b> : "22/03/1997"
+<Multi_key> <space> <c> : "31988811112"

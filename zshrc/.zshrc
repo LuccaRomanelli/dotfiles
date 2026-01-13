@@ -136,3 +136,4 @@ export PATH="/home/lcc/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/lcc/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 alias gb="git branch"
 alias lg="lazygit"
+alias '?'='~/shell/ask.sh'
