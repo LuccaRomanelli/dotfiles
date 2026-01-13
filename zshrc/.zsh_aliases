@@ -183,3 +183,11 @@ new_tmux () {
 }
 
 alias tm=new_tmux
+
+## MD to PDF / Email
+alias md2pdf='/home/lcc/shell/md2pdf.sh'
+alias mailfile='/home/lcc/shell/mail_file.sh'
+alias md2mail='/home/lcc/shell/md2pdf_mail.sh'
+
+## Zen notes
+alias zen='/home/lcc/shell/zen.sh'
