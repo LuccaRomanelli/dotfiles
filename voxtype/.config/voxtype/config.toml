@@ -1,0 +1,30 @@
+# Voxtype configuration for Hyprland + Multilingual (PT/EN)
+
+state_file = "auto"
+
+[hotkey]
+# Disabled - using Hyprland keybindings (SUPER+D)
+enabled = false
+
+[audio]
+device = "default"
+sample_rate = 16000
+max_duration_secs = 60
+
+[whisper]
+# Multilingual model with good speed/quality balance
+model = "small"
+# Auto-detect language (works for English and Portuguese)
+language = "auto"
+
+[output]
+mode = "type"
+fallback_to_clipboard = true
+
+[output.notification]
+# Show notification when recording starts
+on_recording_start = true
+# Show notification when transcription begins
+on_recording_stop = true
+# Show notification with transcribed text
+on_transcription = true
