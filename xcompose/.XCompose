@@ -6,3 +6,7 @@ include "%H/.local/share/omarchy/default/xcompose"
 <Multi_key> <space> <e> : "ldpromanelii@gmail.com"
 <Multi_key> <space> <b> : "22/03/1997"
 <Multi_key> <space> <c> : "31988811112"
+
+# Links
+<Multi_key> <space> <l> : "https://www.linkedin.com/in/lucca-romanelli/"
+<Multi_key> <space> <g> : "https://github.com/LuccaRomanelli"

@@ -137,3 +137,10 @@ export PHP_INI_SCAN_DIR="/home/lcc/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 alias gb="git branch"
 alias lg="lazygit"
 alias '?'='~/shell/ask.sh'
+
+# bun completions
+[ -s "/home/lcc/.bun/_bun" ] && source "/home/lcc/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
