@@ -12,13 +12,18 @@ sample_rate = 16000
 max_duration_secs = 60
 
 [whisper]
-# Multilingual model with good speed/quality balance
-model = "small"
+# Large v3 turbo model - optimized for GPU acceleration
+model = "large-v3-turbo"
 # Auto-detect language (works for English and Portuguese)
 language = "auto"
 
 [output]
 mode = "type"
+
+# Compositor integration hooks (modifier key fix)
+pre_recording_command = "hyprctl dispatch submap voxtype_recording"
+pre_output_command = "hyprctl dispatch submap voxtype_suppress"
+post_output_command = "hyprctl dispatch submap reset"
 fallback_to_clipboard = true
 
 [output.notification]
