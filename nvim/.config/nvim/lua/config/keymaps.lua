@@ -2,17 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- LSP keymaps with telescope reuse_win
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local opts = { buffer = args.buf }
-    vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, vim.tbl_extend("force", opts, { desc = "Goto Definition" }))
-    vim.keymap.set("n", "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, vim.tbl_extend("force", opts, { desc = "Goto Implementation" }))
-    vim.keymap.set("n", "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, vim.tbl_extend("force", opts, { desc = "Goto Type Definition" }))
-    vim.keymap.set("n", "gr", function() require("telescope.builtin").lsp_references({ reuse_win = true }) end, vim.tbl_extend("force", opts, { desc = "References" }))
-  end,
-})
-
 -- Spell check functions
 local function spell_suggest(auto_continue)
   local word = vim.fn.spellbadword()[1]
