@@ -144,3 +144,7 @@ alias '?'='~/shell/ask.sh'
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Claude Code OAuth Token for auto-claude
+export CLAUDE_CODE_OAUTH_TOKEN="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"
+
