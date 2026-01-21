@@ -1,6 +1,6 @@
 local M = {}
 
-local ZET_DIR = "/home/lcc/obisidian/00_zen"
+local ZET_DIR = "/home/lcc/obisidian/00_zet"
 
 -- Get the next unique ID for today (format: YYYYMMDDNNN)
 local function get_next_id()

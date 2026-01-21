@@ -183,6 +183,9 @@ new_tmux () {
 }
 
 alias tm=new_tmux
+alias gb="git branch"
+alias lg="lazygit"
+alias '?'='~/shell/ask.sh'
 
 ## MD to PDF / Email
 alias md2pdf='/home/lcc/shell/md2pdf.sh'
@@ -191,3 +194,14 @@ alias md2mail='/home/lcc/shell/md2pdf_mail.sh'
 
 ## Zet notes
 alias zet='/home/lcc/shell/zet.sh'
+
+## Todo
+alias todo='/home/lcc/shell/todo.sh'
+alias todoadd='/home/lcc/shell/todoadd.sh'
+
+# Devcontainers
+
+alias devb='devcontainer build --workspace-folder .'
+alias devup='devcontainer up --workspace-folder .'
+alias dev='devcontainer exec --workspace-folder . zsh'
+

@@ -132,19 +132,5 @@ SAVEHIST=50000
 setopt inc_append_history
 
 source ~/.zsh_aliases
-export PATH="/home/lcc/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/home/lcc/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-alias gb="git branch"
-alias lg="lazygit"
-alias '?'='~/shell/ask.sh'
 
-# bun completions
-[ -s "/home/lcc/.bun/_bun" ] && source "/home/lcc/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Claude Code OAuth Token for auto-claude
-export CLAUDE_CODE_OAUTH_TOKEN="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"
 
