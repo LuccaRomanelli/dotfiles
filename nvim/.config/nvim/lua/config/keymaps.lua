@@ -103,7 +103,7 @@ vim.keymap.set("n", "<leader>gR", function()
   vim.cmd("Gvdiffsplit " .. branch)
 end, { desc = "Git review diff against branch" })
 
-vim.keymap.set("n", "<leader>gn", function()
+vim.keymap.set("n", "]g", function()
   local review = _G.git_review
   if #review.files == 0 then
     vim.notify("No review active", vim.log.levels.WARN)
@@ -111,11 +111,31 @@ vim.keymap.set("n", "<leader>gn", function()
   end
   review.current = review.current + 1
   if review.current > #review.files then
-    vim.notify("Review complete", vim.log.levels.INFO)
-    vim.cmd("only")
+    local choice = vim.fn.confirm("Review finished!", "&Quit\n&Back", 1)
+    if choice == 1 then
+      vim.cmd("qa")
+    else
+      review.current = #review.files
+    end
     return
   end
-  vim.cmd("only")
+  vim.cmd("silent! tabonly | only")
   vim.cmd("edit " .. review.root .. "/" .. review.files[review.current])
   vim.cmd("Gvdiffsplit " .. review.branch)
 end, { desc = "Git next diff file" })
+
+vim.keymap.set("n", "[g", function()
+  local review = _G.git_review
+  if #review.files == 0 then
+    vim.notify("No review active", vim.log.levels.WARN)
+    return
+  end
+  if review.current <= 1 then
+    vim.notify("Already at first file", vim.log.levels.INFO)
+    return
+  end
+  review.current = review.current - 1
+  vim.cmd("silent! tabonly | only")
+  vim.cmd("edit " .. review.root .. "/" .. review.files[review.current])
+  vim.cmd("Gvdiffsplit " .. review.branch)
+end, { desc = "Git prev diff file" })
