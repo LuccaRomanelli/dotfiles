@@ -87,26 +87,35 @@ vim.keymap.set("n", "p", "p:silent! update<CR>", { desc = "Paste and save" })
 vim.keymap.set("n", "P", "P:silent! update<CR>", { desc = "Paste before and save" })
 
 -- Git diff review workflow
+_G.git_review = _G.git_review or { files = {}, branch = "main", current = 0, root = "" }
+
 vim.keymap.set("n", "<leader>gR", function()
   local branch = vim.fn.input("Diff against branch: ", "main")
   if branch == "" then return end
+  local root = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
   local files = vim.fn.systemlist("git diff --name-only " .. branch)
   if #files == 0 then
     vim.notify("No changes found", vim.log.levels.INFO)
     return
   end
-  vim.fn.setqflist({}, " ", { title = "Git diff " .. branch, lines = files })
-  vim.cmd("cfirst")
+  _G.git_review = { files = files, branch = branch, current = 1, root = root }
+  vim.cmd("edit " .. root .. "/" .. files[1])
   vim.cmd("Gvdiffsplit " .. branch)
 end, { desc = "Git review diff against branch" })
 
 vim.keymap.set("n", "<leader>gn", function()
-  vim.cmd("only")
-  local ok = pcall(vim.cmd, "cnext")
-  if ok then
-    local branch = vim.fn.getqflist({ title = 1 }).title:match("Git diff (.+)")
-    vim.cmd("Gvdiffsplit " .. (branch or "main"))
-  else
-    vim.notify("Review complete", vim.log.levels.INFO)
+  local review = _G.git_review
+  if #review.files == 0 then
+    vim.notify("No review active", vim.log.levels.WARN)
+    return
   end
+  review.current = review.current + 1
+  if review.current > #review.files then
+    vim.notify("Review complete", vim.log.levels.INFO)
+    vim.cmd("only")
+    return
+  end
+  vim.cmd("only")
+  vim.cmd("edit " .. review.root .. "/" .. review.files[review.current])
+  vim.cmd("Gvdiffsplit " .. review.branch)
 end, { desc = "Git next diff file" })
