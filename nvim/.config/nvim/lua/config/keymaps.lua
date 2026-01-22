@@ -73,6 +73,40 @@ vim.api.nvim_create_user_command("Zet", function(opts)
   end
 end, { nargs = "+", desc = "Create a new zet note" })
 
+-- Telescope no diretório atual (do arquivo aberto)
+vim.keymap.set("n", "<leader>fF", function()
+  require("telescope.builtin").find_files({ cwd = vim.fn.expand("%:p:h") })
+end, { desc = "Find files (current dir)" })
+
+vim.keymap.set("n", "<leader>fG", function()
+  require("telescope.builtin").live_grep({ cwd = vim.fn.expand("%:p:h") })
+end, { desc = "Grep (current dir)" })
+
 -- Auto save after paste
 vim.keymap.set("n", "p", "p:silent! update<CR>", { desc = "Paste and save" })
 vim.keymap.set("n", "P", "P:silent! update<CR>", { desc = "Paste before and save" })
+
+-- Git diff review workflow
+vim.keymap.set("n", "<leader>gR", function()
+  local branch = vim.fn.input("Diff against branch: ", "main")
+  if branch == "" then return end
+  local files = vim.fn.systemlist("git diff --name-only " .. branch)
+  if #files == 0 then
+    vim.notify("No changes found", vim.log.levels.INFO)
+    return
+  end
+  vim.fn.setqflist({}, " ", { title = "Git diff " .. branch, lines = files })
+  vim.cmd("cfirst")
+  vim.cmd("Gvdiffsplit " .. branch)
+end, { desc = "Git review diff against branch" })
+
+vim.keymap.set("n", "<leader>gn", function()
+  vim.cmd("only")
+  local ok = pcall(vim.cmd, "cnext")
+  if ok then
+    local branch = vim.fn.getqflist({ title = 1 }).title:match("Git diff (.+)")
+    vim.cmd("Gvdiffsplit " .. (branch or "main"))
+  else
+    vim.notify("Review complete", vim.log.levels.INFO)
+  end
+end, { desc = "Git next diff file" })

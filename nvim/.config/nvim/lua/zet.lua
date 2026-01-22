@@ -37,12 +37,12 @@ function M.create_note(title)
   local filename = normalized_title .. ".md"
   local filepath = ZET_DIR .. "/" .. filename
 
-  -- Check if file already exists
+  -- Check if file already exists - just open it
   local f = io.open(filepath, "r")
   if f then
     f:close()
-    vim.notify("Zet: File already exists: " .. filename, vim.log.levels.ERROR)
-    return nil
+    vim.notify("Zet: Opening existing note: " .. filename)
+    return filepath
   end
 
   -- Generate unique ID

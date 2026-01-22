@@ -1,3 +1,9 @@
 [user]
     name = Lucca Romanelli
     email = ldpromanelli@gmail.com
+[diff]
+	tool = nvimdiff
+[difftool]
+	prompt = false
+[difftool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"

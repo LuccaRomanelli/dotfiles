@@ -42,6 +42,14 @@ alias down="docker compose down"
 
 ## Nvim
 n() { if [ "$#" -eq 0 ]; then nvim .; else nvim "$@"; fi; }
+ndiff() {
+  local branch="${1:-main}"
+  local first_file=$(git diff --name-only "$branch" | head -1)
+  [ -z "$first_file" ] && echo "No changes" && return
+  nvim "$first_file" \
+    -c "cexpr system('git diff --name-only $branch')" \
+    -c "Gvdiffsplit $branch"
+}
 
 ## Git
 alias g='git'
