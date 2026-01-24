@@ -134,3 +134,6 @@ setopt inc_append_history
 source ~/.zsh_aliases
 
 
+
+# Claude Code alias
+alias claude="claude --dangerously-skip-permissions"

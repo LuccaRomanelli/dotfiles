@@ -43,15 +43,7 @@ alias down="docker compose down"
 ## Nvim
 n() { if [ "$#" -eq 0 ]; then nvim .; else nvim "$@"; fi; }
 ndiff() {
-  local branch="${1:-main}"
-  local root=$(git rev-parse --show-toplevel)
-  local files=$(git diff --name-only "$branch")
-  [ -z "$files" ] && echo "No changes" && return
-  local files_lua=$(echo "$files" | sed 's/.*/"&"/' | tr '\n' ',' | sed 's/,$//')
-  local first_file=$(echo "$files" | head -1)
-  nvim "$root/$first_file" \
-    -c "lua _G.git_review = { files = {$files_lua}, branch = '$branch', current = 1, root = '$root' }" \
-    -c "Gvdiffsplit $branch"
+  nvim -c "GitReview ${1:-origin/main}"
 }
 
 ## Git
@@ -63,6 +55,10 @@ alias gp='git push'
 alias gs='git status'
 alias gco='git checkout'
 alias gc="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
+
+gf() {
+  git add . && git commit -m "$1" && git push
+}
 
 ## Claude
 alias c='claude'
