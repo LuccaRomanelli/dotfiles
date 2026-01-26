@@ -193,6 +193,7 @@ alias tm=new_tmux
 alias gb="git branch"
 alias lg="lazygit"
 alias '?'='~/shell/ask.sh'
+alias '??'='ddgr'
 
 ## MD to PDF / Email
 alias md2pdf='/home/lcc/shell/md2pdf.sh'
