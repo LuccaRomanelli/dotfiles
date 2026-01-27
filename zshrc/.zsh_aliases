@@ -205,6 +205,9 @@ alias zet='/home/lcc/shell/zet.sh'
 
 ## Todo
 alias todo='/home/lcc/shell/todo.sh'
+
+## Pomodoro
+alias pomo='/home/lcc/shell/pomo.sh'
 alias todoadd='/home/lcc/shell/todoadd.sh'
 
 # Devcontainers

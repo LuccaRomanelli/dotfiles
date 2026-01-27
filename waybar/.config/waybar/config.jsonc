@@ -14,7 +14,8 @@
     "clock",
     "custom/weather",
     "custom/update",
-    "custom/screenrecording-indicator"
+    "custom/screenrecording-indicator",
+    "custom/pomodoro"
   ],
   "modules-right": [
     "mpris",
@@ -209,6 +210,12 @@
   "custom/expand-icon": {
     "format": " ",
     "tooltip": false
+  },
+  "custom/pomodoro": {
+    "exec": "~/.config/waybar/pomo-waybar.sh",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{}"
   },
   "custom/screenrecording-indicator": {
     "on-click": "omarchy-cmd-screenrecord",
