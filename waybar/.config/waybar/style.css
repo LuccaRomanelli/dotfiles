@@ -69,6 +69,7 @@ mpris#waybar.empty #mpris {
 #custom-nvidia_usage,
 #temperature,
 #custom-weather,
+#custom-pomodoro,
 #tray-expander {
   background-color: rgba(10, 7, 22, 0.55); 
   color: @foreground;

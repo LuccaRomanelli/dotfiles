@@ -5,9 +5,10 @@
 -- Use Telescope as the default picker instead of Snacks
 vim.g.lazyvim_picker = "telescope"
 
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
 vim.opt.spell = true
 vim.opt.spelllang = { "en", "pt" }
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.switchbuf = "useopen"
+vim.opt.diffopt:append("followwrap")
