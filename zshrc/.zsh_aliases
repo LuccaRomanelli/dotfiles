@@ -75,93 +75,35 @@ gf() {
 alias c='claude'
 alias cr='claude --resume'
 
-## Laravel sail
-export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
-function _find_sail() {
-  local dir=.
-  until [ $dir -ef / ]; do
-    if [ -f "$dir/sail" ]; then
-      echo "$dir/sail"
-      return 0
-    elif [ -f "$dir/vendor/bin/sail" ]; then
-      echo "$dir/vendor/bin/sail"
-      return 0
-    fi
-    dir+=/..
-  done
-  return 1
-}
-function s() {
-  local sail_path
-  sail_path=$(_find_sail)
+## Search
+_open_smart() {
+  local file="$1" line="${2:-1}"
+  local mimetype=$(file --mime-type -b "$file")
 
-  if [[ $1 == "cinit" ]]; then
-    docker run --rm \
-      -u "$(id -u):$(id -g)" \
-      -v $(pwd):/var/www/html \
-      -w /var/www/html \
-      laravelsail/php"${2:=83}"-composer:latest \
-      composer install --ignore-platform-reqs
-  elif [[ $1 == "ninit" ]]; then
-    docker run --rm \
-      -u "$(id -u):$(id -g)" \
-      -v $(pwd):/var/www/html \
-      -w /var/www/html \
-      node:${2:=20} \
-      npm install
+  if [[ "$mimetype" == text/* || "$mimetype" == application/json || "$mimetype" == application/javascript ]]; then
+    nvim "+$line" "$file"
   else
-    if [ "$sail_path" = "" ]; then
-      if [ $ZSH_SAIL_FALLBACK_TO_LOCAL = "true" ]; then
-        $*
-        else
-        >&2 printf "laravel-sail: sail executable not found. Are you in a Laravel directory?\nif yes try install Dependencies using 's cinit' command\n"
-        return 1
-      fi
-    fi
-    $sail_path $*
+    xdg-open "$file" >/dev/null 2>&1 &
   fi
 }
-function sa() {
-  s artisan $*
+
+sf() {
+  local file
+  file=$(fd --hidden --exclude .git . 2>/dev/null | fzf --height 40% --reverse --border --preview 'bat --style=numbers --color=always {} 2>/dev/null || file {}')
+  [[ -n "$file" ]] && _open_smart "$file"
 }
-function sc() {
-  s composer $*
-}
-# alias s='bash ./vendor/bin/sail'
-alias sup='s up'
-alias sud='s up -d'
-alias sdown='s down'
-alias sa='s artisan'
-alias saqw='sa queue:work'
-alias saql='sa queue:listen'
-alias sasw='sa schedule:work'
-alias sasr='sa schedule:run'
-alias sp='s php'
-alias sn='s npm'
-alias sdev='s npm run dev'
-alias sbuild='s npm run build'
-alias st='sp ./vendor/bin/pest'
-alias stp='sp ./vendor/bin/pest --parallel'
-alias std='sp ./vendor/bin/pest --dirty'
-alias sta='sp ./vendor/bin/pest --testsuite Arch'
-alias stf='sp ./vendor/bin/pest --testsuite Feature'
-alias stu='sp  ./vendor/bin/pest --testsuite Unit'
-alias stfl='sp ./vendor/bin/pest --filter'
-alias stk='sa tinker'
-alias stc='stp --coverage-clover .qodana/code-coverage/coverage.xml'
-alias stan='sp ./vendor/bin/phpstan'
-alias spint='sp ./vendor/bin/pint --dirty'
-#compdef _artisan sa
-#compdef _composer sc
-function _artisan() {
-  if [ -f "./vendor/bin/sail" ]; then
-    compadd $(sa --raw --no-ansi list | sed "s/[[:space:]].*//g")
-  fi
-}
-function _composer() {
-  if [ -f "./vendor/bin/sail" ]; then
-    compadd $(sc --raw --no-ansi list | sed "s/[[:space:]].*//g")
-  fi
+
+s() {
+  local selection file line
+  selection=$(rg --hidden --glob '!.git' --line-number --color=always . 2>/dev/null | \
+    fzf --ansi --height 40% --reverse --border \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1} 2>/dev/null' \
+        --preview-window '+{2}-5' \
+        --delimiter ':')
+  [[ -z "$selection" ]] && return
+  file=$(echo "$selection" | cut -d':' -f1)
+  line=$(echo "$selection" | cut -d':' -f2)
+  _open_smart "$file" "$line"
 }
 
 ## Yazi
