@@ -1,0 +1,6 @@
+[Unit]
+Description=Bisync casamento with Google Drive
+
+[Service]
+Type=oneshot
+ExecStart=/home/lcc/obisidian/scripts/casamento-sync.sh

@@ -169,3 +169,7 @@ alias devb='devcontainer build --workspace-folder .'
 alias devup='devcontainer up --workspace-folder .'
 alias dev='devcontainer exec --workspace-folder . zsh'
 
+## Casamento sync
+alias csync='/home/lcc/obisidian/scripts/casamento-sync.sh'
+alias casamento-resync='rclone bisync /home/lcc/obisidian/1_projects/casamento gdrive:casamento --resync --filters-file /home/lcc/dotfiles/rclone/casamento-filter.txt -v'
+
