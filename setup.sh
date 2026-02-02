@@ -33,4 +33,8 @@ for config in "${CONFIGS[@]}"; do
     stow "$config"
 done
 
+# Zen Browser (requires special script due to random profile names)
+echo "Configuring Zen Browser..."
+./zen/install-zen.sh
+
 echo "Done!"
