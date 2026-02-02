@@ -4,6 +4,7 @@ CONFIGS=(
     ghostty
     gitconfig
     nvim
+    rclone
     starship
     tmux
     voxtype
