@@ -9,6 +9,7 @@ CONFIGS=(
     tmux
     voxtype
     waybar
+    msmtp
     xcompose
     zshrc
 )

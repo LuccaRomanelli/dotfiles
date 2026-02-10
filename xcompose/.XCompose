@@ -10,3 +10,6 @@ include "%H/.local/share/omarchy/default/xcompose"
 # Links
 <Multi_key> <space> <l> : "https://www.linkedin.com/in/lucca-romanelli/"
 <Multi_key> <space> <g> : "https://github.com/LuccaRomanelli"
+
+# AI
+<Multi_key> <space> <a> : "Ask me if any doubts, confirme with me your findings to see if you are going in the right track. Ask how much you like and to be 100%"
