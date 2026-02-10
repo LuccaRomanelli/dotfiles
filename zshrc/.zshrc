@@ -137,3 +137,10 @@ source ~/.zsh_aliases
 
 # Claude Code alias
 alias claude="claude --dangerously-skip-permissions"
+
+# bun completions
+[ -s "/home/lcc/.bun/_bun" ] && source "/home/lcc/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

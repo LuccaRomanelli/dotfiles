@@ -42,13 +42,23 @@ clean-port() {
     echo "Usage: clean-port <port>"
     return 1
   fi
-  local pid=$(lsof -t -i:"$1")
-  if [ -z "$pid" ]; then
+  local pids=""
+  # Try ss first (more reliable on modern Linux)
+  pids=$(ss -tlnp 2>/dev/null | grep ":$1 " | grep -oP 'pid=\K[0-9]+' | sort -u)
+  # Fallback to lsof if ss didn't find anything
+  if [ -z "$pids" ]; then
+    pids=$(lsof -t -i:"$1" 2>/dev/null | sort -u)
+  fi
+  if [ -z "$pids" ]; then
     echo "No process found on port $1"
     return 1
   fi
-  kill -9 $pid && echo "Killed process $pid on port $1"
+  for pid in $pids; do
+    local pname=$(ps -p $pid -o comm= 2>/dev/null)
+    kill -9 $pid && echo "Killed $pname (PID $pid) on port $1"
+  done
 }
+alias kp='clean-port'
 alias dcou="docker compose up -d"
 alias down="docker compose down"
 
@@ -71,9 +81,14 @@ gf() {
   git add . && git commit -m "$1" && git push
 }
 
-## Claude
-alias c='claude'
-alias cr='claude --resume'
+## Claude / Happy
+if command -v happy &> /dev/null; then
+  alias c='happy --dangerously-skip-permissions'
+  alias cr='happy --dangerously-skip-permissions --resume'
+else
+  alias c='claude'
+  alias cr='claude --resume'
+fi
 
 ## Search
 _open_smart() {
