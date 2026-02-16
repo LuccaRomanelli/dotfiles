@@ -160,8 +160,9 @@ new_tmux () {
 alias tm=new_tmux
 alias gb="git branch"
 alias lg="lazygit"
-alias '?'='~/shell/ask.sh'
-alias '??'='ddgr'
+alias '?'='~/shell/ask.sh'           # Ollama (fast, local)
+alias '??'='ddgr'                     # DuckDuckGo
+alias '???'='~/shell/ask-claude.sh'  # Claude Haiku (complex queries)
 
 ## MD to PDF / Email
 alias md2pdf='/home/lcc/shell/md2pdf.sh'

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CONFIGS=(
+    claude
     ghostty
     gitconfig
     nvim

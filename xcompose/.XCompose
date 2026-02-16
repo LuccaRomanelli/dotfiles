@@ -12,4 +12,4 @@ include "%H/.local/share/omarchy/default/xcompose"
 <Multi_key> <space> <g> : "https://github.com/LuccaRomanelli"
 
 # AI
-<Multi_key> <space> <a> : "Ask me if any doubts, confirme with me your findings to see if you are going in the right track. Ask how much you like and to be 100%"
+<Multi_key> <space> <a> : "Ask me if any doubts, confirme with me your findings to see if you are going in the right track. Ask how much you like and to be 100%. Add to the plan agents to run in paralel to implement the tasks"

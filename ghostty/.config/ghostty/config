@@ -33,5 +33,5 @@ keybind = super+control+shift+alt+arrow_right=resize_split:right,100
 # Slowdown mouse scrolling
 mouse-scroll-multiplier = 0.95
 keybind = shift+enter=text:\x1b\r
-keybind = shift+up=scroll_page_lines:-1
-keybind = shift+down=scroll_page_lines:1
+keybind = alt+k=scroll_page_lines:-1
+keybind = alt+j=scroll_page_lines:1
