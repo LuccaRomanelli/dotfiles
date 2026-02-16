@@ -179,6 +179,10 @@ alias todo='/home/lcc/shell/todo.sh'
 alias pomo='/home/lcc/shell/pomo.sh'
 alias todoadd='/home/lcc/shell/todoadd.sh'
 
+## Workday
+alias workday='/home/lcc/shell/workday.sh'
+alias workdayadd='/home/lcc/shell/workdayadd.sh'
+
 # Devcontainers
 
 alias devb='devcontainer build --workspace-folder .'
