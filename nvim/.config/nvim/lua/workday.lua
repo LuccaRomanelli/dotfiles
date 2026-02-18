@@ -1,6 +1,7 @@
 local M = {}
 
 local WORKDAY_DIR = "/home/lcc/obisidian/1_projects/workday"
+local TEMPLATE_PATH = "/home/lcc/obisidian/Templates/workday.md"
 
 --- Returns today's date as YYYY-MM-DD
 --- @return string
@@ -14,23 +15,14 @@ local function get_path()
   return WORKDAY_DIR .. "/" .. today() .. ".md"
 end
 
---- Returns template lines for a new workday note
+--- Reads the Obsidian template and replaces Templater date placeholders
 --- @return string[]
 local function get_template()
-  return {
-    "# Workday - " .. today(),
-    "",
-    "## Accomplishments",
-    "",
-    "## Done",
-    "",
-    "## Carry Over",
-    "",
-    "## Blockers",
-    "",
-    "## Inbox",
-    "",
-  }
+  local lines = vim.fn.readfile(TEMPLATE_PATH)
+  for i, line in ipairs(lines) do
+    lines[i] = line:gsub("<%%.- tp%.date%.now%(.-%).-%%>", today())
+  end
+  return lines
 end
 
 --- Creates the workday file from template if it doesn't exist

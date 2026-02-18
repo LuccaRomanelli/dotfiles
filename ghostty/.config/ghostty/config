@@ -35,3 +35,5 @@ mouse-scroll-multiplier = 0.95
 keybind = shift+enter=text:\x1b\r
 keybind = alt+k=scroll_page_lines:-1
 keybind = alt+j=scroll_page_lines:1
+keybind = shift+arrow_up=unbind
+keybind = shift+arrow_down=unbind
