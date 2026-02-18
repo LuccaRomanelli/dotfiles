@@ -82,6 +82,9 @@ vim.keymap.set("n", "<leader>fG", function()
   require("telescope.builtin").live_grep({ cwd = vim.fn.expand("%:p:h") })
 end, { desc = "Grep (current dir)" })
 
+-- Redo with U
+vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
+
 -- Auto save after paste
 vim.keymap.set("n", "p", "p:silent! update<CR>", { desc = "Paste and save" })
 vim.keymap.set("n", "P", "P:silent! update<CR>", { desc = "Paste before and save" })
