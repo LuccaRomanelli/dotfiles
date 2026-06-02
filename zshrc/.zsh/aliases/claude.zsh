@@ -4,4 +4,4 @@ alias c='claude --dangerously-skip-permissions'
 
 ## @cmd cr
 ## @desc Resume last claude session
-alias cr='claude --resume'
+alias cr='claude --dangerously-skip-permissions --resume'

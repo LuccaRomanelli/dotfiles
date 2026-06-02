@@ -22,7 +22,9 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   group = vim.api.nvim_create_augroup("auto_save_insert", { clear = true }),
   callback = function()
     if vim.bo.modified and vim.bo.buftype == "" and vim.fn.expand("%") ~= "" then
+      vim.opt.confirm = false
       vim.cmd("silent! update")
+      vim.opt.confirm = true
     end
   end,
 })

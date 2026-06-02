@@ -10,29 +10,11 @@
 ## @desc lt — tree view (2 levels)
 ## @cmd lta
 ## @desc lta — tree view + hidden
-if command -v eza &> /dev/null; then
-  alias ls='eza -lh --group-directories-first --icons=auto'
-  alias lsa='ls -a'
-  alias ll='eza -la --icons --group-directories-first'
-  alias la='eza -a --icons --group-directories-first'
-  alias lt='eza --tree --level=2 --long --icons --git'
-  alias lta='lt -a'
-fi
+# ls/lsa/ll/la/lt/lta are now defined in listing.zsh (macOS folder emoji + Finder tag color).
 
 ## @cmd cd
-## @desc cd <dir|pattern> — zoxide-powered smart cd
-if command -v zoxide &> /dev/null; then
-  alias cd="zd"
-  zd() {
-    if [ $# -eq 0 ]; then
-      builtin cd ~ && return
-    elif [ -d "$1" ]; then
-      builtin cd "$1"
-    else
-      z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
-    fi
-  }
-fi
+## @desc cd <dir|pattern> — zoxide-powered smart cd (uses `zoxide init --cmd cd` from .zshrc)
+# zoxide installs `cd` and `cdi` directly; nothing to do here besides documentation.
 
 ## @cmd ..
 ## @desc Go up 1 level (also ... and ....)

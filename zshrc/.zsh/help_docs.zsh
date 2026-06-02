@@ -262,48 +262,6 @@ Usage: cr
 Deps: claude
 EOF
       ;;
-    zet)
-      cat <<'EOF'
-zet - Create Zettelkasten note
-Runs: ~/shell/zet.sh
-Usage: zet [args]
-EOF
-      ;;
-    nn)
-      cat <<'EOF'
-nn - Create a new note
-Runs: ~/shell/nn.sh
-Usage: nn [args]
-EOF
-      ;;
-    todo)
-      cat <<'EOF'
-todo - Show todo list
-Runs: ~/shell/todo.sh
-Usage: todo
-EOF
-      ;;
-    todoadd)
-      cat <<'EOF'
-todoadd - Add item to todo list
-Runs: ~/shell/todoadd.sh
-Usage: todoadd "<item>"
-EOF
-      ;;
-    workday)
-      cat <<'EOF'
-workday - Show workday log
-Runs: ~/shell/workday.sh
-Usage: workday
-EOF
-      ;;
-    workdayadd)
-      cat <<'EOF'
-workdayadd - Add entry to workday log
-Runs: ~/shell/workdayadd.sh
-Usage: workdayadd "<entry>"
-EOF
-      ;;
     devb)
       cat <<'EOF'
 devb - Build devcontainer

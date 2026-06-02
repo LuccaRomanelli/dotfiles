@@ -30,7 +30,7 @@ Minimal global git config: user identity, nvimdiff as diff tool.
 
 ### [Neovim (LazyVim)](https://www.lazyvim.org/) — `nvim/`
 
-LazyVim-based setup with plugins for git integration (fugitive, gitsigns, git-review), markdown support, Neo-tree file explorer, Telescope fuzzy finder, custom Lua modules for todo management and zettelkasten notes, spell checking.
+LazyVim-based setup with plugins for git integration (fugitive, gitsigns, git-review), markdown support, Neo-tree file explorer, Telescope fuzzy finder, Clojure tooling, LSP navigation helpers, and spell checking.
 
 ### [Starship](https://starship.rs/) — `starship/`
 
@@ -54,26 +54,35 @@ Compose key sequences for quickly typing personal data (name, email, phone, Link
 
 ### [Zsh + Oh-My-Zsh](https://ohmyz.sh/) — `zshrc/`
 
-Oh-My-Zsh with fzf integration, zoxide smart navigation, mise version management, syntax highlighting, autosuggestions, and custom fzf widgets.
+Cross-platform Zsh setup with Oh-My-Zsh, mise runtime activation, fzf widgets, zoxide smart navigation, NVM lazy loading, custom aliases, and local help docs.
+
+- macOS (`Darwin`): Powerlevel10k prompt, Homebrew paths, DevTools/Nubank hooks, mobile SDK paths, nu-voice autostart.
+- Linux: Starship prompt, `~/.tmuxifier/bin`, Bun completions/bin, eza-based listing aliases.
 
 ---
 
 ## Aliases
 
-Defined in `zshrc/.zsh_aliases`. Grouped by tool below.
+Defined as modular files in `zshrc/.zsh/aliases/*.zsh`. `zshrc/.zshrc` loads all alias files plus `zshrc/.zsh/help.zsh` and `zshrc/.zsh/help_docs.zsh`.
 
-### Navigation — eza, zoxide, fzf, yazi
+### Navigation and Listing
 
 | Alias | Command |
 |-------|---------|
-| `ls` | `eza -lh --group-directories-first --icons=auto` |
-| `lsa` | `ls -a` |
-| `lt` | `eza --tree --level=2 --long --icons --git` |
-| `lta` | `lt -a` |
-| `ff` | `fzf --preview 'bat ...'` |
-| `cd` | zoxide-enhanced (`zd` function) |
+| `ls` `lsa` `ll` `la` | macOS-aware listing with icons, Finder tag colors, and custom folder emoji |
+| `lt` `lta` | tree view wrappers |
+| `cd` | installed by `zoxide init zsh --cmd cd` |
 | `..` `...` `....` | Parent directory shortcuts |
 | `y` | Yazi file manager with cwd return |
+
+### Search and fzf
+
+| Alias | Command |
+|-------|---------|
+| `ff` | Fuzzy find file and open smart |
+| `ffh` | Fuzzy find hidden files and open smart |
+| `s` | Ripgrep content search, open selected match |
+| `cdf` | Fuzzy find file and cd to parent directory |
 
 ### Git — git, lazygit
 
@@ -86,9 +95,11 @@ Defined in `zshrc/.zsh_aliases`. Grouped by tool below.
 | `gp` | `git push` |
 | `gs` | `git status` |
 | `gco` | `git checkout` |
-| `gc` | Formatted branch list with commit info |
 | `gb` | `git branch` |
-| `gf` | Add, commit, push in one command |
+| `gsc` | `git stash clear` |
+| `gsh` | `git stash` |
+| `gf` | Stash, fetch, rebase on `origin/main`, restore, commit, push |
+| `gnuke` | Remove linked worktrees, delete local branches except main, clear stash |
 | `lg` | `lazygit` |
 
 ### Docker
@@ -97,6 +108,7 @@ Defined in `zshrc/.zsh_aliases`. Grouped by tool below.
 |-------|---------|
 | `d` | `docker` |
 | `ports` | Show listening ports (`lsof`) |
+| `kp` | Kill process on port |
 | `dcou` | `docker compose up -d` |
 | `down` | `docker compose down` |
 
@@ -111,31 +123,22 @@ Defined in `zshrc/.zsh_aliases`. Grouped by tool below.
 
 | Alias | Command |
 |-------|---------|
-| `c` | `claude` |
-| `cr` | `claude --resume` |
+| `c` | `claude --dangerously-skip-permissions` |
+| `cr` | `claude --dangerously-skip-permissions --resume` |
+| `inception` | `ai inception` |
 
-### Laravel Sail
-
-| Alias | Command |
-|-------|---------|
-| `s` | Smart sail wrapper (also `cinit`, `ninit`) |
-| `sa` | `s artisan` |
-| `sc` | `s composer` |
-| `sup` / `sud` | `s up` / `s up -d` |
-| `sdown` | `s down` |
-| `sp` / `sn` | `s php` / `s npm` |
-| `sdev` / `sbuild` | `s npm run dev` / `s npm run build` |
-| `st` / `stp` / `std` | Pest tests (normal / parallel / dirty) |
-| `sta` / `stf` / `stu` | Pest by suite (Arch / Feature / Unit) |
-| `stk` | `sa tinker` |
-| `stan` | PHPStan |
-| `spint` | Pint formatter (dirty) |
-
-### Tmux
+### Nubank / AI
 
 | Alias | Command |
 |-------|---------|
-| `tm` | fzf-based tmux session creator/attacher |
+| `ai` | Nubank AI toolbox launcher |
+| `bd` | Daily Nubank dev routine |
+| `cdnu` | cd to `~/dev/nu/` |
+| `cdpi` | cd to `~/dev/agents/` |
+| `finn-start` | Start finn Catalyst REPL |
+| `trabalha-start` | Start trabalha Catalyst REPL |
+| `finn-test` | Run finn cashflow Flutter tests |
+| `cff-mst-dynamo` | Start cashflow-financing MST DynamoDB |
 
 ### Dev Containers
 
@@ -143,20 +146,5 @@ Defined in `zshrc/.zsh_aliases`. Grouped by tool below.
 |-------|---------|
 | `devb` | `devcontainer build --workspace-folder .` |
 | `devup` | `devcontainer up --workspace-folder .` |
+| `devdown` | `devcontainer down --workspace-folder .` |
 | `dev` | `devcontainer exec --workspace-folder . zsh` |
-
-### Shell Scripts — [shell repo](https://github.com/LuccaRomanelli/shell)
-
-These aliases call scripts from a separate repository.
-
-| Alias | Script | Description |
-|-------|--------|-------------|
-| `?` | `ask.sh` | Quick questions via Claude Haiku |
-| `??` | `ddgr` | DuckDuckGo search |
-| `pomo` | `pomo.sh` | Pomodoro timer with waybar integration |
-| `todo` | `todo.sh` | Open todo list in Neovim |
-| `todoadd` | `todoadd.sh` | Add a task to todo list |
-| `zet` | `zet.sh` | Create zettelkasten notes |
-| `md2pdf` | `md2pdf.sh` | Convert Markdown to PDF (pandoc) |
-| `mailfile` | `mail_file.sh` | Send file attachments via email |
-| `md2mail` | `md2pdf_mail.sh` | Convert Markdown to PDF and email it |

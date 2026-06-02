@@ -12,3 +12,4 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.switchbuf = "useopen"
 vim.opt.diffopt:append("followwrap")
+vim.opt.confirm = false
