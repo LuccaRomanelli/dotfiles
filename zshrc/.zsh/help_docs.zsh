@@ -294,16 +294,6 @@ Usage: dev
 Deps: devcontainer CLI
 EOF
       ;;
-    nu)
-      cat <<'EOF'
-nu - Nu CLI tooling
-Nu CLI commands are available directly. Use `help nu <subcmd>` to delegate to nu's own help.
-Usage: nu [subcommand] [args]
-       help nu              # show nu top-level help
-       help nu <subcmd>     # show help for a specific nu subcommand
-Deps: nu (nucli)
-EOF
-      ;;
     *)
       echo "No documentation found for: $1"
       echo "Run 'help' to see all available commands."

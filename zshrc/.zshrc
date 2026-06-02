@@ -90,30 +90,17 @@ case "$_DOTFILES_OS" in
     ;;
 esac
 
-# {mark} START DEVTOOLS SETUP ZSHRC
-if [[ "$_DOTFILES_OS" == "Darwin" && -r "$HOME/.nurc" ]]; then
-  source "$HOME/.nurc"
-  export GOPATH="${NU_HOME}/go"
-  export PATH="$GOPATH/bin:${PATH}"
-fi
-# {mark} END DEVTOOLS SETUP ZSHRC
-
 # Java configuration (added by devtools)
 if [[ "$_DOTFILES_OS" == "Darwin" ]]; then
   export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
   export PATH="$JAVA_HOME/bin:$PATH"
 fi
 
-# {mark} START DEVTOOLS TERMINAL EXTRAS
-# Nucli completions
-[[ -n "$NU_HOME" && -f "$NU_HOME/nucli/nu.bashcompletion" ]] && source "$NU_HOME/nucli/nu.bashcompletion"
-
 # Set cursor to blinking vertical bar
 if [[ "$_DOTFILES_OS" == "Darwin" ]]; then
   echo -ne '\e[5 q'
   preexec() { echo -ne '\e[5 q'; }
 fi
-# {mark} END DEVTOOLS TERMINAL EXTRAS
 
 
 # Editor
@@ -224,27 +211,15 @@ fzf-smart-complete() {
 zle -N fzf-smart-complete
 bindkey '^ ' fzf-smart-complete
 
-# Secrets (JIRA / LITELLM / FIGMA) carregados via ~/.config/zsh/secrets.zsh
+# Optional local secrets
 [[ -r "$HOME/.config/zsh/secrets.zsh" ]] && source "$HOME/.config/zsh/secrets.zsh"
-# unset OPENAI_API_KEY  # removed: was wiping LiteLLM key needed by Codex
 
 # Load custom aliases and help system
 for f in ~/.zsh/aliases/*.zsh(N); do [[ -r "$f" ]] && source "$f"; done
 [[ -r ~/.zsh/help.zsh ]] && source ~/.zsh/help.zsh
 [[ -r ~/.zsh/help_docs.zsh ]] && source ~/.zsh/help_docs.zsh
 
-# {mark} START IT-ENG JAMF SETUP MOBILE ZSHRC
-if [[ "$_DOTFILES_OS" == "Darwin" && -n "$NU_HOME" ]]; then
-  export MONOREPO_ROOT="$NU_HOME/mini-meta-repo"
-  export FLUTTER_SDK_HOME="$HOME/sdk-flutter"
-  export FLUTTER_ROOT="$FLUTTER_SDK_HOME"
-  export ANDROID_HOME="$HOME/Library/Android/sdk"
-  export ANDROID_SDK="$ANDROID_HOME"
-  export PATH="$MONOREPO_ROOT/monocli/bin:$FLUTTER_SDK_HOME/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$NU_HOME/.pub-cache/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
-fi
-# {mark} END IT-ENG JAMF SETUP MOBILE ZSHRC
-
-# NVM default bin no PATH (para que `pi`, `node` etc. resolvam em /bin/sh subshells)
+# NVM default bin no PATH (para que `node` etc. resolvam em /bin/sh subshells)
 # Lê ~/.nvm/alias/default (ex.: "24") e escolhe a maior versão instalada com esse prefixo.
 _nvm_default_alias="$(cat "$HOME/.nvm/alias/default" 2>/dev/null)"
 if [ -n "$_nvm_default_alias" ]; then
@@ -272,37 +247,6 @@ if [[ "$_DOTFILES_OS" == "Linux" ]]; then
   export BUN_INSTALL="$HOME/.bun"
   export PATH="$BUN_INSTALL/bin:$PATH"
 fi
-
-# ── Langfuse (local) ──────────────────────────────────────────
-if [[ "$_DOTFILES_OS" == "Darwin" ]]; then
-  export LANGFUSE_PUBLIC_KEY=pk-lf-local
-  export LANGFUSE_SECRET_KEY=sk-lf-local
-  export LANGFUSE_HOST=http://localhost:3100
-fi
-
-# ── NU Voice ──────────────────────────────────────────────────
-# macOS grants Microphone per-bundle: nu-voice inherits mic from the host
-# terminal (cmux), so it MUST stay a child of this shell. We background a
-# SUBSHELL as a job — `( … ) &` — NOT `( … & )`, which reparents the process
-# to init(1) and silently breaks the mic. Closing this shell stops nu-voice;
-# the next shell auto-starts it again.
-_nuvoice_launch() {
-  ( cd "$HOME/nu-voice" && ./run.sh --config configs/user.yaml --skip-preflight --debug >/tmp/nu-voice.log 2>&1 ) &
-}
-nuvoice() {
-  case "$1" in
-    stop)    pkill -f voice_transcriber; rm -f /tmp/nu-voice.lock; echo "nu-voice stopped" ;;
-    restart) pkill -f voice_transcriber; sleep 1; rm -f /tmp/nu-voice.lock; _nuvoice_launch; echo "nu-voice restarted" ;;
-    status)  pgrep -fl -- '-m voice_transcriber ' || echo "nu-voice not running" ;;
-    log)     tail -f /tmp/nu-voice.log ;;
-    *)       _nuvoice_launch; echo "nu-voice started (log: nuvoice log)" ;;
-  esac
-}
-# Auto-start once (skip if already running). Disable with NU_VOICE_NO_AUTOSTART=1.
-if [[ "$_DOTFILES_OS" == "Darwin" && -z "$NU_VOICE_NO_AUTOSTART" ]] && ! pgrep -f -- '-m voice_transcriber ' >/dev/null 2>&1; then
-  _nuvoice_launch
-fi
-
 
 # Zoxide (smarter cd) — installs `cd` and `cdi`; native fallback to builtin cd for real paths.
 # MUST be last: zoxide hooks chpwd/precmd and warns if any config runs after its init.

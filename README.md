@@ -30,7 +30,7 @@ Minimal global git config: user identity, nvimdiff as diff tool.
 
 ### [Neovim (LazyVim)](https://www.lazyvim.org/) — `nvim/`
 
-LazyVim-based setup with plugins for git integration (fugitive, gitsigns, git-review), markdown support, Neo-tree file explorer, Telescope fuzzy finder, Clojure tooling, LSP navigation helpers, and spell checking.
+LazyVim-based setup with plugins for git integration (fugitive, gitsigns, git-review), markdown support, Neo-tree file explorer, Telescope fuzzy finder, LSP navigation helpers, and spell checking.
 
 ### [Starship](https://starship.rs/) — `starship/`
 
@@ -56,7 +56,7 @@ Compose key sequences for quickly typing personal data (name, email, phone, Link
 
 Cross-platform Zsh setup with Oh-My-Zsh, mise runtime activation, fzf widgets, zoxide smart navigation, NVM lazy loading, custom aliases, and local help docs.
 
-- macOS (`Darwin`): Powerlevel10k prompt, Homebrew paths, DevTools/Nubank hooks, mobile SDK paths, nu-voice autostart.
+- macOS (`Darwin`): Powerlevel10k prompt and Homebrew paths.
 - Linux: Starship prompt, `~/.tmuxifier/bin`, Bun completions/bin, eza-based listing aliases.
 
 ---
@@ -126,19 +126,6 @@ Defined as modular files in `zshrc/.zsh/aliases/*.zsh`. `zshrc/.zshrc` loads all
 | `c` | `claude --dangerously-skip-permissions` |
 | `cr` | `claude --dangerously-skip-permissions --resume` |
 | `inception` | `ai inception` |
-
-### Nubank / AI
-
-| Alias | Command |
-|-------|---------|
-| `ai` | Nubank AI toolbox launcher |
-| `bd` | Daily Nubank dev routine |
-| `cdnu` | cd to `~/dev/nu/` |
-| `cdpi` | cd to `~/dev/agents/` |
-| `finn-start` | Start finn Catalyst REPL |
-| `trabalha-start` | Start trabalha Catalyst REPL |
-| `finn-test` | Run finn cashflow Flutter tests |
-| `cff-mst-dynamo` | Start cashflow-financing MST DynamoDB |
 
 ### Dev Containers
 

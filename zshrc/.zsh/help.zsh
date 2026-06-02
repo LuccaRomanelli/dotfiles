@@ -12,12 +12,6 @@ help() {
       done <<< "$cmds"
     done
     echo ""
-  elif [[ "$1" == "nu" && $# -ge 2 ]]; then
-    # Delegate to nu subcommand help
-    shift
-    nu "$@" --help
-  elif [[ "$1" == "nu" ]]; then
-    nu --help
   else
     # Show full doc from help_docs
     _help_docs "$1"
